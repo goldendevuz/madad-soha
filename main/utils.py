@@ -1,19 +1,17 @@
-def format_as_html(row, path):
-    if len(row) < 4:
+from icecream import ic
+
+def format_as_html(result):
+    if not result:
         return "Yangi javob to'liq emas."
 
-    response = f"""Sizning test natijangiz:
+    response = f"""Test natijangiz:
        
-telegra.ph/{path}
+{result.first.title} - {result.first.title}
+{result.second.title} - {result.second.percentage}
+
+Bepul maslahat + chegirma olish uchun:
++998 99 600 77 07
 """
-
-    return response
-
-
-def format_as_html_parents(row, path):
-    if len(row) < 4:
-        return "Yangi javob to'liq emas."
-
-    response = f"""Farzandingizning test natijasi: {row[15]}  telegra.ph/{path} Moliyaviy savodxonlik kursi: +998996007707"""
+    ic(response)
 
     return response
