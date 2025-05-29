@@ -38,8 +38,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the current directory contents into the container at /usr/src/app
 COPY . .
 
-# Expose port 1025
-EXPOSE 1025
+# Expose port 1027
+EXPOSE 1027
 
 # Run the startup script
 CMD ["bash", "start.sh"]

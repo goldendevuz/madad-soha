@@ -1,52 +1,32 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from icecream import ic
-from .models import UserOption, UserTrait, Score, UserQuiz
+
+from main.models import UserOption, Score, UserSpecialty
 
 
 @receiver(post_save, sender=UserOption)
-def create_user_trait_from_option(sender, instance, created, **kwargs):
-    # if not created:
-    #     return
-
-    user = instance.user
-    question = instance.question
-    option = instance.option
-    quiz = getattr(question, 'quiz', None)
-
-    if not quiz:
+def update_user_specialty_score(sender, instance, created, **kwargs):
+    if not created:
         return
 
-    # Fetch all matching score objects
-    score_qs = Score.objects.filter(quiz=quiz, option=option)
-    ic(score_qs)
-
-    traits = ", ".join([score.get_trait_display() for score in score_qs])
-
-    user_quiz = UserQuiz.objects.filter(
-        user=user, quiz=quiz, completed=False
-    ).order_by('-created').first()
+    user = instance.user
+    quiz = instance.quiz.quiz if instance.quiz and instance.quiz.quiz else None
+    user_quiz = instance.quiz if instance.quiz else None
+    option = instance.option
+    question = instance.question
 
     if not user_quiz:
-        user_quiz = UserQuiz.objects.create(
-            user=user, quiz=quiz, completed=False
-        )
+        return
 
-    user_trait = UserTrait.objects.filter(
-        user=user,
-        quiz=user_quiz,
-        question=question,
-        option=instance,
-        trait=traits or None
-    ).order_by('-created').first()
+    # Get all Score rows related to the selected option in the quiz
+    scores = Score.objects.filter(quiz=quiz, option=option)
 
-    if not user_trait:
-        user_trait = UserTrait.objects.create(
+    for score in scores:
+        user_specialty, created = UserSpecialty.objects.get_or_create(
             user=user,
             quiz=user_quiz,
-            question=question,
-            option=instance,
-            trait=traits or None
+            specialty=score.specialty,
+            defaults={'question': question, 'score': 0}
         )
-
-    ic(user_trait.__dict__)
+        user_specialty.score += 1
+        user_specialty.save()

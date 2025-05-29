@@ -5,9 +5,11 @@ from import_export.admin import ImportExportModelAdmin
 
 User = get_user_model()
 
+
 class UserResource(resources.ModelResource):
     class Meta:
         model = User
+
 
 @admin.register(User)
 class UserAdmin(ImportExportModelAdmin):

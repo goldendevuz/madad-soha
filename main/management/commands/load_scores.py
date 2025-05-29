@@ -1,12 +1,12 @@
 import os
+
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
 from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
-from icecream import ic
 
-from main.models import Quiz, Option, Score
+from main.models import Option, Score
 
 # Path to core/data/service-account.json
 SERVICE_ACCOUNT_FILE = os.path.join(settings.BASE_DIR, 'core', 'data', 'service-account.json')
@@ -31,10 +31,12 @@ traits = {
     16: 'barqarorlik',
 }
 
+
 def get_google_services():
     creds = Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=SCOPES)
     sheets_service = build('sheets', 'v4', credentials=creds)
     return creds, sheets_service
+
 
 def get_user_rows(sheet_id, sheet_name="scoring"):
     range_name = f"{sheet_name}!A2:R62"
@@ -46,6 +48,7 @@ def get_user_rows(sheet_id, sheet_name="scoring"):
     ).execute()
 
     return result.get("values", [])
+
 
 class Command(BaseCommand):
     help = "Loads latest user traits from Google Sheets"
@@ -74,7 +77,8 @@ class Command(BaseCommand):
                     try:
                         # ic(row[1])
                         # You must ensure Option order matches spreadsheet order!
-                        option = Option.objects.get(text=row[1])  # or `.filter(trait=trait_key).first()` depending on schema
+                        option = Option.objects.get(
+                            text=row[1])  # or `.filter(trait=trait_key).first()` depending on schema
                         quiz = option.question.quiz
                         obj = Score.objects.create(
                             quiz=quiz,

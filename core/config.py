@@ -1,7 +1,8 @@
 import hashlib
 import os
-from icecream import ic
+
 from decouple import Config, RepositoryEnv, Csv
+from icecream import ic
 
 # .env file path
 ENV_FILE = 'core/data/.env'

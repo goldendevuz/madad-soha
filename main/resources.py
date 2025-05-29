@@ -1,5 +1,6 @@
 from import_export import resources
-from .models import Quiz, Question, Option, Score, UserOption, UserQuiz
+
+from .models import Quiz, Question, Option, Score, UserOption, UserQuiz, Specialty, UserSpecialty
 
 
 class QuizResource(resources.ModelResource):
@@ -33,8 +34,19 @@ class UserOptionResource(resources.ModelResource):
         fields = ('user', 'question', 'option')
         export_order = ('user', 'question', 'option')
 
+
 class UserTraitResource(resources.ModelResource):
     class Meta:
         model = UserOption
         fields = ('user', 'question', 'option')
         export_order = ('user', 'question', 'option')
+
+
+class SpecialtyResource(resources.ModelResource):
+    class Meta:
+        model = Specialty
+
+
+class UserSpecialtyResource(resources.ModelResource):
+    class Meta:
+        model = UserSpecialty
