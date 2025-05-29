@@ -178,3 +178,4 @@ staticfiles/
 **/migrations/*
 !**/migrations/__init__.py
 core/data/*.json
+backups/
