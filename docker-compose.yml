@@ -11,10 +11,4 @@ services:
       - ./static:/usr/src/app/static
       - ./media:/usr/src/app/media
     restart: always
-    user: root  # optional, remove or change for prod
-    networks:
-      - webnet
-
-networks:
-  webnet:
-    external: true
+    user: root
