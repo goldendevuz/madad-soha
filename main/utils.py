@@ -6,8 +6,8 @@ def format_as_html(result):
 
     response = f"""Test natijangiz:
        
-{result.first.title} - {result.first.title}
-{result.second.title} - {result.second.percentage}
+{result.first.title} - {result.first.percentage}%
+{result.second.title} - {result.second.percentage}%
 
 Bepul maslahat + chegirma olish uchun:
 +998 99 600 77 07
