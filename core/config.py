@@ -31,3 +31,4 @@ WEBHOOK_PATH = hashlib.md5(BOT_TOKEN.encode()).hexdigest()
 WEBHOOK_URL = f"{WEBHOOK_DOMAIN}/api/webhook/{WEBHOOK_PATH}"
 
 BEARER_AUTH_TOKEN = env('BEARER_AUTH_TOKEN')
+SMS_URL = env('SMS_URL')

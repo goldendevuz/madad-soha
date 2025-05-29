@@ -10,14 +10,14 @@ from telegraph import Telegraph
 from .google import get_user_rows
 from .models import UserOption, Option, UserSpecialty, UserQuiz, Quiz
 from .utils import format_as_html
-from core.config import BEARER_AUTH_TOKEN
+from core.config import BEARER_AUTH_TOKEN, SMS_URL
 
 User = get_user_model()
 
 SHEET_ID = '1TQJiyNvJXaMbQvvweNO9Yeg6VuybdmeSycMtSM5VkyE'
 
 async def send_sms_message(html_message, phone):
-    url = "https://piglet-factual-mentally.ngrok-free.app/api/sms/"
+    url = SMS_URL
 
     payload = json.dumps({
     "number": phone.replace("+998", ""),
