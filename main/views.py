@@ -101,5 +101,6 @@ def send_latest_google_response(request):
     ic(user_options_count, "user_options_count")
     if user_options_count == 14:
         user_quiz.completed = True
+        user_quiz.save(update_fields=['completed'])
     
     return JsonResponse({'status': 'sent', 'message': html_message})
